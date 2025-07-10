@@ -23,6 +23,7 @@ class User {
         $this->id = $id;
         $this->conn = $conn;
 
+        #open transaction
         $stmt = $conn->prepare("SELECT balance FROM people WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -64,6 +65,7 @@ class User {
 
             $this->balance -= $amount;
         } catch (Exception $e) {
+            #if any error occurs.
             $this->conn->rollback();
             echo "Transfer failed: " . $e->getMessage(), "\n";
         }
